@@ -48,15 +48,6 @@ public class Step2 {
     private void onPhotoReady(Bitmap bitmap) {
         // SHOW BITMAP WITH A SCREEN
         //RECOGNIZE NUMBER PLATE
-        //File file = new File(ImageHelper.IMAGE_PATH, ImageHelper.IMAGE_NAME);
-        //if (file != null) {
-          //  OpenALPR alpr = OpenALPR.Factory.create(MainActivity.this, ANDROID_DATA_DIR);
-            //String result = alpr.recognizeWithCountryRegionNConfig("eu", "it", file.getAbsolutePath(), openAlprConfFile, 10);
-            //Log.e("RESULT", "result: " + result);
-            //if (!TextUtils.isEmpty(result)) {
-              //  parseResultAndGetPlate(result);
-            //}
-        //}
     }
 
     private void loadPhoto() {

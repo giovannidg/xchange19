@@ -3,14 +3,18 @@ package it.openreply.xchange19;
 import android.graphics.Bitmap;
 import android.media.ImageReader;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.things.pio.Gpio;
 import com.google.android.things.pio.GpioCallback;
 import com.google.android.things.pio.PeripheralManager;
+
+import org.openalpr.OpenALPR;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +23,8 @@ import java.util.List;
 import it.openreply.xchange19.camera.CameraHandler;
 import it.openreply.xchange19.camera.ImageHelper;
 import it.openreply.xchange19.camera.ImagePreprocessor;
+import it.openreply.xchange19.model.Candidate;
+import it.openreply.xchange19.model.Results;
 
 /**
  * Android Things project for Reply Xchange 19
@@ -34,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
     private ImagePreprocessor mImagePreprocessor;
     private CameraHandler mCameraHandler;
     private boolean isProcessing;
+    //Plate recognition
+    static final String ANDROID_DATA_DIR = "/data/data/it.openreply.xchange19";
+    final String openAlprConfFile = ANDROID_DATA_DIR + File.separatorChar + "runtime_data" + File.separatorChar + "openalpr.conf";
+    //Plate number  filter
+    private String regexTarga = "[a-zA-Z]{2}[0-9]{3}[a-zA-Z]{2}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void onPhotoReady(Bitmap bitmap) {
         // SHOW BITMAP WITH A SCREEN
         //RECOGNIZE NUMBER PLATE
-        /*File file = new File(ImageHelper.IMAGE_PATH, ImageHelper.IMAGE_NAME);
+        File file = new File(ImageHelper.IMAGE_PATH, ImageHelper.IMAGE_NAME);
         if (file != null) {
             OpenALPR alpr = OpenALPR.Factory.create(MainActivity.this, ANDROID_DATA_DIR);
             String result = alpr.recognizeWithCountryRegionNConfig("eu", "it", file.getAbsolutePath(), openAlprConfFile, 10);
@@ -157,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(result)) {
                 parseResultAndGetPlate(result);
             }
-        }*/
+        }
     }
 
     private void loadPhoto() {
@@ -172,4 +183,20 @@ public class MainActivity extends AppCompatActivity {
         mCameraHandler.shutDown();
     }
 
+    @NonNull
+    private String parseResultAndGetPlate(String result) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Results results = mapper.readValue(result, Results.class);
+            for (Candidate candidate : results.getResults().get(0).getCandidates()) {
+                if (candidate.getPlate().matches(regexTarga)) {
+                    Log.d(LOG_TAG, "plate: " + candidate.getPlate());
+                    return candidate.getPlate();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
