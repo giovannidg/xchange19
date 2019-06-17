@@ -1,22 +1,22 @@
 package it.openreply.xchange19;
 
 public class Step2 {
-
+/*
     //BUILD GRADLE
-    //implementation 'junit:junit:4.12'
-    //implementation 'com.android.support:support-annotations:27.1.0'
+    implementation 'junit:junit:4.12'
+   implementation 'com.android.support:support-annotations:27.1.0'
 
     //Permission Manifest
-    //<uses-permission android:name="android.permission.CAMERA" />
-    //<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     //HEADER
-    //private ImagePreprocessor mImagePreprocessor;
-    //private CameraHandler mCameraHandler;
-    //private boolean isProcessing;
+    private ImagePreprocessor mImagePreprocessor;
+    private CameraHandler mCameraHandler;
+    private boolean isProcessing;
 
     //onCreate
-    /*
+
     initCamera();
 
 
@@ -26,6 +26,7 @@ public class Step2 {
 
  //main method
 
+//LOAD PHOTO SULLA CALLBACK
 
     private void initCamera() {
         // ADD CAMERA SUPPORT

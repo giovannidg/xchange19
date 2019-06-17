@@ -2,10 +2,10 @@ package it.openreply.xchange19;
 
 import android.graphics.Bitmap;
 import android.media.ImageReader;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -36,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private static String LED_GPIO = "BCM26";
     private static String BUTTON_GPIO = "BCM4";
     private static final String LOG_TAG = "XCHANGE19";
-    //Camera
+
     private ImagePreprocessor mImagePreprocessor;
     private CameraHandler mCameraHandler;
     private boolean isProcessing;
+
     //Plate recognition
     static final String ANDROID_DATA_DIR = "/data/data/it.openreply.xchange19";
     final String openAlprConfFile = ANDROID_DATA_DIR + File.separatorChar + "runtime_data" + File.separatorChar + "openalpr.conf";
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
             buttonGpio.setActiveType(Gpio.ACTIVE_LOW);
             buttonGpio.setEdgeTriggerType(Gpio.EDGE_BOTH);
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onDestroy() {
         //Close Led GPIO
@@ -136,9 +135,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     * Initialize the camera that will be used to capture images.
-     */
     private void initCamera() {
         // ADD CAMERA SUPPORT
         mImagePreprocessor = new ImagePreprocessor();
