@@ -3,8 +3,6 @@ package it.openreply.xchange19;
 public class Step2 {
 /*
     //BUILD GRADLE
-    implementation 'junit:junit:4.12'
-   implementation 'com.android.support:support-annotations:27.1.0'
 
     //Permission Manifest
     <uses-permission android:name="android.permission.CAMERA" />
